@@ -1,6 +1,5 @@
-ls
- [![Creative Commons License](http://mirrors.creativecommons.org/presskit/logos/cc.logo.png)](http://creativecommons.org/
-    licenses/by-nc-nd/4.0/)
+ [![Creative Commons License](http://mirrors.creativecommons.org/presskit/logos/cc.logo.png)](http://creativecommons.org/licenses/by-nc-nd/4.0/)
+
 
 # Model and Applications in Computational Fluid Dynamics
 
