@@ -25,26 +25,28 @@ Passcode:
 
 ## Registration
 
-Students willing to follow are requested to compile this form
+Students willing to follow are requested to compile [this form](https://docs.google.com/forms/d/e/1FAIpQLSdafSBTFcd7IyT5SA-CY951tVVsLQXry98DuwTz-n1FjmRJrQ/viewform)
 
 ## Exam
 
-For the examination, you are requested to complete a practical exercise and to do an oral examiation. 
+For the examination, you are requested to complete a practical exercise and to do an oral examination. 
 
 ### Frontal Lectures
 
-##### Module 1
-- ...
-- ...
+##### Module 1: Ocean and Atmospheric Flows
+- Navier-Stokes equations in stream function-vorticity formulation
+- Quasi Geostrophic equations
+- Eddy viscosity-based stabilization for Quasi Geostrophic equations
+- Compressible Euler equations (pressure-based solver, treatment of the hydrostatic term, ...)
+- Eddy viscosity-based stabilization for Compressible Euler equations
 
-##### Module 2
-- ...
-- ...
+##### Module 2: Cardiovascular Flows
+- Multiscale modelling for the simulation of the blood flows in idealized geometries
+- Applications to patient-specific configurations
 
-##### Module 3
-- ...
-- ...
-- ...
+##### Module 3: Industrial applications
+- Multiphase and conjiugate heat transfer modelling for refrigeration systems
+- Fluid-solid modeling for pharmaceutical applications
 
 
 ### References and Text Books:
