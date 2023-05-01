@@ -1,7 +1,7 @@
  [![Creative Commons License](http://mirrors.creativecommons.org/presskit/logos/cc.logo.png)](http://creativecommons.org/licenses/by-nc-nd/4.0/)
 
 
-# Model and Applications in Computational Fluid Dynamics
+# Models and Applications in Computational Fluid Dynamics
 
 - Michele Girfoglio (<mgirfogl@sissa.it>)
 
@@ -32,6 +32,9 @@ Students willing to follow are requested to compile [this form](https://docs.goo
 For the examination, you are requested to complete a practical exercise and to do an oral examination. 
 
 ### Frontal Lectures
+
+##### Module 0
+- Introduction to Finite Volume discretization
 
 ##### Module 1: Ocean and Atmospheric Flows
 - Navier-Stokes equations in stream function-vorticity formulation
