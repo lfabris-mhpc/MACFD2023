@@ -15,7 +15,7 @@ All lectures will be delivered in one of SISSA classrooms and streamed online us
 
 The following Zoom link will be used for the lectures:
 
-https://sissa-it.zoom.us/j/7997253553
+https://sissa-it.zoom.us/j/84449538589?pwd=dVNjVkRNcWdVSG1YQUxqTFhFVWl1Zz09
 
 ## Registration
 
