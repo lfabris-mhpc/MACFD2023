@@ -1,0 +1,3 @@
+icoFoam_custom.C
+
+EXE = /scratch/mgirfogl/esercizi_Corso/second_lecture/icoFoam_custom/icoFoam_custom

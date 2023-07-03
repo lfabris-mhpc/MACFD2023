@@ -1,0 +1,4 @@
+SOURCE = \
+filter_QGE.C \
+
+# sources

@@ -77,6 +77,10 @@ This repository contains, assignements, workspaces, and other material for the c
 
 New material will be uploaded frequently.
 
+## Acknowledgements
+
+I would like to aknowledge [Dr. Giovanni Stabile](giovanni.stabile@uniurb.it) for his contribution to the preparation of the slides presented in the first lecture of this course as well as [Dr. Arash Hajisharifi](ahajisha@sissa.it) for helding a seminar during the last lecture.
+
 **Please consider contributing pull requests to correct typos, or better document the material in this repository!**
 
 ## Licencing
