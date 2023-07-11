@@ -1,0 +1,4 @@
+expressions 
+(
+ 	omega sin(x);
+);
