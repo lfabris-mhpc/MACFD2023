@@ -18,8 +18,8 @@ checkMesh
 
 decomposePar -force
 #run in parallel with no functionObjects, since streamFunction doesn't work correctly in parallel
-mpirun -np 4 icoFoam -parallel -noFunctionObjects | tee run.log
+mpirun -np 4 ./icoFoam_OmegaPsi -parallel -noFunctionObjects | tee run.log
 reconstructPar
 
-icoFoam -postProcess
+#./icoFoam_OmegaPsi -postProcess
 

@@ -1,0 +1,3 @@
+icoFoam_OmegaPsi.C
+
+EXE = icoFoam_OmegaPsi

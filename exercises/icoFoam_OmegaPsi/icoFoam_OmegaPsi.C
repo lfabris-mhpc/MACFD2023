@@ -100,75 +100,66 @@ int main(int argc, char *argv[])
 
         // Momentum predictor
 
-		//prepare vectorial psi at time k
-		psiVector = i*zero + j*zero + k*psi;
-		
-		//compute U at time k
-		U = fvc::curl(psiVector);
-		
-		//compute pressure at time k (an accessory, in SV formulation)
-		{
-		    //div(grad(p)) = div(laplacian(u)) - div(div(u u))
-		    //laplacian(p) = laplacian(div(u)) - div(div(u u))
-		    //laplacian(p) = - div(div(u u))
-		    
-		    volScalarField divDivUU
-            (
-                fvc::div
-                (
-                    fvc::div(phi,U),
-                    "div(div(phi,U))"
-                )
-            );
-                        
-            // Calculate the flow-direction filter tensor
-            //volScalarField magSqrU(magSqr(U));
-            //volSymmTensorField F(sqr(U)/(magSqrU + SMALL*average(magSqrU)));
-
-            // Calculate the divergence of the flow-direction filtered div(U*U)
-            // Filtering with the flow-direction generates a more reasonable
-            // pressure distribution in regions of high velocity gradient in the
-            // direction of the flow
-		    /*
-		    volScalarField divDivUU
-            (
-                fvc::div
-                (
-                    F & fvc::div(phi, U),
-                    "div(div(phi,U))"
-                )
-            );
-            */
-            
-            // Solve a Poisson equation for the approximate pressure
-            //while (piso.correctNonOrthogonal())
-            //{
-            fvScalarMatrix pEqn
-            (
-                fvm::laplacian(p) == -divDivUU
-            );
-
-            pEqn.setReference(pRefCell, pRefValue);
-            pEqn.solve();
-            //}
-		}
-
-        //system for omega at time k+1; phi from time k
-        fvScalarMatrix omegaEqn
+        fvVectorMatrix UEqn
         (
-            fvm::ddt(omega)
-          + fvm::div(phi, omega)
-          - fvm::laplacian(nu, omega)
+            fvm::ddt(U)
+          + fvm::div(phi, U)
+          - fvm::laplacian(nu, U)
         );
-		
-		//finds omega at time k+1
-		omegaEqn.solve();
 
-		//velocity flux at time k
-		phi = fvc::flux(U);
+        if (piso.momentumPredictor())
+        {
+            solve(UEqn == -fvc::grad(p));
+        }
 
-        //potential at time k+1
-		fvScalarMatrix psiEqn
+        // --- PISO loop
+        while (piso.correct())
+        {
+            volScalarField rAU(1.0/UEqn.A());
+            volVectorField HbyA(constrainHbyA(rAU*UEqn.H(), U, p));
+            surfaceScalarField phiHbyA
+            (
+                "phiHbyA",
+                fvc::flux(HbyA)
+              + fvc::interpolate(rAU)*fvc::ddtCorr(U, phi)
+            );
+
+            adjustPhi(phiHbyA, U, p);
+
+            // Update the pressure BCs to ensure flux consistency
+            constrainPressure(p, U, phiHbyA, rAU);
+
+            // Non-orthogonal pressure corrector loop
+            while (piso.correctNonOrthogonal())
+            {
+                // Pressure corrector
+
+                fvScalarMatrix pEqn
+                (
+                    fvm::laplacian(rAU, p) == fvc::div(phiHbyA)
+                );
+
+                pEqn.setReference(pRefCell, pRefValue);
+
+                pEqn.solve(mesh.solver(p.select(piso.finalInnerIter())));
+
+                if (piso.finalNonOrthogonalIter())
+                {
+                    phi = phiHbyA - pEqn.flux();
+                }
+            }
+
+            #include "continuityErrs.H"
+
+            U = HbyA - rAU*fvc::grad(p);
+            U.correctBoundaryConditions();
+        }
+        
+        //compute vorticity object at time k+1
+        omega = fvc::curl(U)->component(2);
+        
+        //compute psi object at time k+1
+        fvScalarMatrix psiEqn
 		(
 		 	fvm::laplacian(psi)
           + omega
