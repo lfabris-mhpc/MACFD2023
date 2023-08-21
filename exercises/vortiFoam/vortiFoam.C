@@ -90,6 +90,8 @@ int main(int argc, char *argv[])
 
     // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * //
 
+    Info<< "\npRefCell " << pRefCell << endl;
+    Info<< "\npRefValue " << pRefValue << endl;
     Info<< "\nStarting time loop\n" << endl;
 
     while (runTime.loop())
@@ -120,37 +122,20 @@ int main(int argc, char *argv[])
                     "div(div(phi,U))"
                 )
             );
-                        
-            // Calculate the flow-direction filter tensor
-            //volScalarField magSqrU(magSqr(U));
-            //volSymmTensorField F(sqr(U)/(magSqrU + SMALL*average(magSqrU)));
-
-            // Calculate the divergence of the flow-direction filtered div(U*U)
-            // Filtering with the flow-direction generates a more reasonable
-            // pressure distribution in regions of high velocity gradient in the
-            // direction of the flow
-		    /*
-		    volScalarField divDivUU
-            (
-                fvc::div
-                (
-                    F & fvc::div(phi, U),
-                    "div(div(phi,U))"
-                )
-            );
-            */
             
             // Solve a Poisson equation for the approximate pressure
-            //while (piso.correctNonOrthogonal())
-            //{
-            fvScalarMatrix pEqn
-            (
-                fvm::laplacian(p) == -divDivUU
-            );
+            while (piso.correctNonOrthogonal())
+            {
+                fvScalarMatrix pEqn
+                (
+                    fvm::laplacian(p)
+                  + divDivUU
+                );
 
-            pEqn.setReference(pRefCell, pRefValue);
-            pEqn.solve();
-            //}
+                pEqn.setReference(pRefCell, pRefValue);
+                //pEqn.solve();
+                pEqn.solve(mesh.solver(p.select(piso.finalInnerIter())));
+            }
 		}
 
         //system for omega at time k+1; phi from time k
@@ -175,6 +160,8 @@ int main(int argc, char *argv[])
 		);
 
         psiEqn.solve();
+
+        #include "continuityErrs.H"
 
         runTime.write();
 

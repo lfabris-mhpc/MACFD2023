@@ -23,7 +23,6 @@ boundaryField
     singlePatch
     {
         type            zeroGradient;
-		//value           uniform 0;
     }
 
     frontAndBack
