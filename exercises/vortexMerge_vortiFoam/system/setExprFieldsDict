@@ -21,7 +21,7 @@ expressions
  	omega
 	{
 		field omega;
-		domensions [0 0 -1 0 0 0 0 ];
+		dimensions [0 0 -1 0 0 0 0 ];
 		
 		expression
         #{
